@@ -291,10 +291,17 @@ def ner_report(y_true, y_pred):
         report: report dictionary.
     """
     # check if y_true and y_pred are nested, and if not, nest them
-    if not any(isinstance(s, list) for s in y_true):
-        y_true = [[e] for e in y_true]
-    if not any(isinstance(s, list) for s in y_pred):
-        y_pred = [[e] for e in y_pred]
+    y_true = copy.deepcopy(y_true)
+    y_pred = copy.deepcopy(y_pred)
+    for i, document in enumerate(y_true):
+        for j, token in enumerate(document):
+            if not isinstance(token, list):
+                y_true[i][j] = [token]
+    for i, document in enumerate(y_pred):
+        for j, token in enumerate(document):
+            if not isinstance(token, list):
+                y_pred[i][j] = [token]
+
     true_entities = get_entities_from_nested_sequence(y_true)
     pred_entities = get_entities_from_nested_sequence(y_pred)
     true_entities = sorted(true_entities, key=lambda tup: tup[1])
