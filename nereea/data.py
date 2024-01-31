@@ -1,10 +1,11 @@
 from typing import List, Tuple
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 Label = str
 Labels = List[Label]
 NestedLabels = List[List[Label]]
 Annotation = Tuple[Label, int, int]
+
 
 @dataclass
 class NerReport:
@@ -34,3 +35,6 @@ class NerReport:
     wrong_label_overlapping_span={len(self.wrong_label_overlapping_span)},
     right_label_overlapping_span={len(self.right_label_overlapping_span)},
 )"""
+
+    def asdict(self) -> dict:
+        return asdict(self)

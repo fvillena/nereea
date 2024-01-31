@@ -11,9 +11,27 @@ pip install git+https://github.com/fvillena/nereea.git
 ## Usage
 
 ```python
-from nereea import ner_report
-y_true = [['O', 'O', 'O', 'B-MISC', 'I-MISC', 'I-MISC', 'O'], ['B-PER', 'I-PER', 'O']]
-y_pred = [['O', 'O', 'B-MISC', 'I-MISC', 'I-MISC', 'I-MISC', 'O'], ['B-PER', 'I-PER', 'O']]
-ner_report(y_true, y_pred)
+>>> from nereea import ner_report
+>>> y_true = [['O', 'O', 'O', 'B-MISC', 'I-MISC', 'I-MISC', 'O'], ['B-PER', 'I-PER', 'O']]
+>>> y_pred = [['O', 'O', 'B-MISC', 'I-MISC', 'I-MISC', 'I-MISC', 'O'], ['B-PER', 'I-PER', 'O']]
+>>> report = ner_report(y_true, y_pred)
+>>> print(report)
+NerReport(
+    correct=1,
+    false_positives=0,
+    false_negatives=0,
+    wrong_label_right_span=0,
+    wrong_label_overlapping_span=0,
+    right_label_overlapping_span=1,
+)
+>>> report.asdict()
+{
+    "correct": [("PER", 8, 9)],
+    "false_positives": [],
+    "false_negatives": [],
+    "wrong_label_right_span": [],
+    "wrong_label_overlapping_span": [],
+    "right_label_overlapping_span": [(("MISC", 3, 5), ("MISC", 2, 5))],
+}
 ```
 
