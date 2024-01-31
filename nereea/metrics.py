@@ -10,6 +10,8 @@ from seqeval.metrics import (
     accuracy_score,
     classification_report,
 )
+from nereea.data import Labels, NestedLabels, NerReport
+from typing import List
 
 
 def start_of_chunk(prev_tag, tag, prev_type, type_):
@@ -282,25 +284,26 @@ def flatten(t):
     return [item for sublist in t for item in sublist]
 
 
-def ner_report(y_true, y_pred):
-    """Named entity recognition report.
+def ner_report(
+    y_true: Labels | NestedLabels, y_pred: Labels | NestedLabels
+) -> NerReport:
+    """Computes the NER Extensive Error Analysis report.
     Args:
-        y_true: true labels.
-        y_pred: predicted labels.
+        y_true (List[str] | List[List[str]]): true labels, it can be a list of labels or a nested list of labels.
+        y_pred: (List[str] | List[List[str]]): true labels, it can be a list of labels or a nested list of labels.
     Returns:
-        report: report dictionary.
+        NerReport: NER Extensive Error Analysis report.
     """
-    # check if y_true and y_pred are nested, and if not, nest them
     y_true = copy.deepcopy(y_true)
     y_pred = copy.deepcopy(y_pred)
     for i, document in enumerate(y_true):
         for j, token in enumerate(document):
             if not isinstance(token, list):
-                y_true[i][j] = [token]
+                y_true[i][j] = [token]  # type: ignore
     for i, document in enumerate(y_pred):
         for j, token in enumerate(document):
             if not isinstance(token, list):
-                y_pred[i][j] = [token]
+                y_pred[i][j] = [token]  # type: ignore
 
     true_entities = get_entities_from_nested_sequence(y_true)
     pred_entities = get_entities_from_nested_sequence(y_pred)
@@ -387,20 +390,14 @@ def ner_report(y_true, y_pred):
     for r in list(rest):
         logging.debug(f"{r} false_positive")
         false_positive.append(r)
-    report = {
-        "n_exact_matches": len(correct),
-        "n_false_positives": len(false_positive),
-        "n_false_negatives": len(false_negative),
-        "n_wrong_label_right_span": len(wrong_label_right_span),
-        "n_wrong_label_overlapping_span": len(wrong_label_overlapping_span),
-        "n_right_label_overlapping_span": len(right_label_overlapping_span),
-        "correct": (correct),
-        "false_positives": false_positive,
-        "false_negatives": false_negative,
-        "wrong_label_right_span": wrong_label_right_span,
-        "wrong_label_overlapping_span": wrong_label_overlapping_span,
-        "right_label_overlapping_span": right_label_overlapping_span,
-    }
+    report = NerReport(
+        correct=correct,
+        false_positives=false_positive,
+        false_negatives=false_negative,
+        wrong_label_right_span=wrong_label_right_span,
+        wrong_label_overlapping_span=wrong_label_overlapping_span,
+        right_label_overlapping_span=right_label_overlapping_span,
+    )
     return report
 
 
