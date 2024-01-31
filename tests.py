@@ -156,7 +156,7 @@ class TestExtensiveErrorAnalysis(unittest.TestCase):
             # 38
             ("Sign_or_Symptom", 39, 40),
         ]
-        self.assertCountEqual(self.false_positives, self.report["false_positives"])
+        self.assertCountEqual(self.false_positives, self.report.false_positives)
 
     def test_false_negatives(self):
         self.false_negatives = [
@@ -171,7 +171,7 @@ class TestExtensiveErrorAnalysis(unittest.TestCase):
             # 38
             ("Disease", 41, 41),
         ]
-        self.assertCountEqual(self.false_negatives, self.report["false_negatives"])
+        self.assertCountEqual(self.false_negatives, self.report.false_negatives)
 
     def test_wrong_label_right_span(self):
         self.wrong_label_right_span = [
@@ -184,7 +184,7 @@ class TestExtensiveErrorAnalysis(unittest.TestCase):
             # 38
         ]
         self.assertCountEqual(
-            self.wrong_label_right_span, self.report["wrong_label_right_span"]
+            self.wrong_label_right_span, self.report.wrong_label_right_span
         )
 
     def test_wrong_label_overlapping_span(self):
@@ -199,7 +199,7 @@ class TestExtensiveErrorAnalysis(unittest.TestCase):
         ]
         self.assertCountEqual(
             self.wrong_label_overlapping_span,
-            self.report["wrong_label_overlapping_span"],
+            self.report.wrong_label_overlapping_span,
         )
 
     def test_right_label_overlapping_span(self):
@@ -216,7 +216,7 @@ class TestExtensiveErrorAnalysis(unittest.TestCase):
         ]
         self.assertCountEqual(
             self.right_label_overlapping_span,
-            self.report["right_label_overlapping_span"],
+            self.report.right_label_overlapping_span,
         )
 
 
