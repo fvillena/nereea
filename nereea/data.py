@@ -6,29 +6,6 @@ Labels = List[Label]
 NestedLabels = List[List[Label]]
 Annotation = Tuple[Label, int, int]
 
-
-# {'n_exact_matches': 9,
-#  'n_false_positives': 0,
-#  'n_false_negatives': 0,
-#  'n_wrong_label_right_span': 0,
-#  'n_wrong_label_overlapping_span': 0,
-#  'n_right_label_overlapping_span': 0,
-#  'correct': [('person', 0, 1),
-#   ('location', 6, 6),
-#   ('organization', 11, 11),
-#   ('person', 14, 15),
-#   ('location', 21, 24),
-#   ('person', 27, 28),
-#   ('organization', 33, 33),
-#   ('person', 36, 37),
-#   ('location', 43, 43)],
-#  'false_positives': [],
-#  'false_negatives': [],
-#  'wrong_label_right_span': [],
-#  'wrong_label_overlapping_span': [],
-#  'right_label_overlapping_span': []}
-
-
 @dataclass
 class NerReport:
     """Named Entity Recognition Error Analysis Report

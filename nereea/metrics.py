@@ -285,12 +285,12 @@ def flatten(t):
 
 
 def ner_report(
-    y_true: Labels | NestedLabels, y_pred: Labels | NestedLabels
+    y_true: List[Labels] | List[NestedLabels], y_pred: List[Labels] | List[NestedLabels]
 ) -> NerReport:
     """Computes the NER Extensive Error Analysis report.
     Args:
-        y_true (List[str] | List[List[str]]): true labels, it can be a list of labels or a nested list of labels.
-        y_pred: (List[str] | List[List[str]]): true labels, it can be a list of labels or a nested list of labels.
+        y_true (List[List[str]] | List[List[List[str]]]): true labels, it can be a list of lists of labels or a list of lists of lists of labels (nested entities).
+        y_pred (List[List[str]] | List[List[List[str]]]): predicted labels, it can be a list of lists of labels or a list of lists of lists of labels (nested entities).
     Returns:
         NerReport: NER Extensive Error Analysis report.
     """
